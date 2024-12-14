@@ -1,4 +1,4 @@
-CREATE TABLE customer_purchase_data (
+CREATE TABLE customers (
     Number INT PRIMARY KEY,
     Age INT,
     Income DECIMAL,

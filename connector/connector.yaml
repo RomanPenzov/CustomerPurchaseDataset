@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: connector-app-container  # Имя контейнера.
-        image: my-python-connector/pythonapp1  # !Заменить на свой!!!
+        image: my-python-connector/pythonapp1  #
         ports:
         - containerPort: 5000  # Открытие порта 5000 внутри контейнера.
         env:  # Переменные окружения для контейнера.

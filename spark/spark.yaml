@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark
+  template:
+    metadata:
+      labels:
+        app: spark
+    spec:
+      containers:
+      - name: spark-container
+        image: my-dockerhub-romanpenzov/spark-analytics  # Замените на ваш тег Docker
+        ports:
+        - containerPort: 4040  # Порт Spark UI
+        env:
+        - name: CLICKHOUSE_URL
+          value: "jdbc:clickhouse://clickhouse:8123"  # URL ClickHouse
+        - name: CLICKHOUSE_USER
+          value: "default"
+        - name: CLICKHOUSE_PASSWORD
+          value: ""  # Если пароль требуется
+        - name: SPARK_MASTER
+          value: "spark://spark-master:7077"  # Spark master URL
+        - name: SPARK_UI_PORT
+          value: "4040"
+        resources:
+          limits:
+            memory: "2Gi"
+            cpu: "1"
+          requests:
+            memory: "1Gi"
+            cpu: "0.5"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-service
+spec:
+  selector:
+    app: spark
+  ports:
+  - protocol: TCP
+    port: 4040
+    targetPort: 4040
